@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guess the Number Game</title>
+  <style>
+    input {
+      width: 50px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Guess the Number Game</h1>
+
+  <p>Try to guess the randomly chosen number between 1 and 1000:</p>
+  <input type="number" id="userGuess" placeholder="Your guess (1-1000)">
+  <button onclick="checkGuess()">Submit Guess</button>
+
+  <p>Your previous results:</p>
+  <ul id="results"></ul>
+
+  <script>
+    // Generate a random number between 1 and 1000
+    const randomNumber = Math.floor(Math.random() * 1000) + 1;
+
+    // Array to store user's results
+    const results = [];
+
+    function checkGuess() {
+      // Get the user's guess from the input field
+      const userGuess = document.getElementById('userGuess').value;
+
+      // Check if the guess is correct
+      if (userGuess == randomNumber) {
+        alert(`Congratulations! You guessed the correct number: ${randomNumber}`);
+        results.push(`${userGuess} is correct!`);
+        displayResults();
+        resetGame();
+      } else {
+        const remainder = randomNumber % userGuess;
+        results.push(`${userGuess} is incorrect. Remainder when divided by ${userGuess} is ${remainder}`);
+        displayResults();
+      }
+    }
+
+    function displayResults() {
+      const resultsList = document.getElementById('results');
+      resultsList.innerHTML = ''; // Clear previous results
+
+      // Display the results in the list
+      results.forEach(result => {
+        const listItem = document.createElement('li');
+        listItem.textContent = result;
+        resultsList.appendChild(listItem);
+      });
+    }
+
+    function resetGame() {
+      // Generate a new random number for the next game
+      randomNumber = Math.floor(Math.random() * 1000) + 1;
+
+      // Clear the user's results
+      results.length = 0;
+
+      // Clear the input field
+      document.getElementById('userGuess').value = '';
+
+      // Display the updated results (empty list)
+      displayResults();
+    }
+  </script>
+
+</body>
+</html>
